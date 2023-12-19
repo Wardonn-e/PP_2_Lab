@@ -1,4 +1,6 @@
 venv/
 .idea/
 data_copy/
+data_copy3/
 /data/
+*.csv

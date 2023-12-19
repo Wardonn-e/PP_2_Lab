@@ -5,7 +5,6 @@ import numpy
 from P_2 import create
 from P_2 import make_dir
 
-
 def copy() -> None:
     """
     Копирование информации
@@ -14,23 +13,24 @@ def copy() -> None:
     make_dir('data_copy3')
     k = 0
     for rating in os.listdir('data'):
-        list_name = os.listdir(os.path.join('data', (rating)))
-        for name in list_name:
-            a = str(random_integer_array[k]).zfill(5)
-            shutil.copy(os.path.join(os.path.join('data', rating), name),
-                        os.path.join("data_copy3", a + '.txt'))
-            with open('3.csv', 'a', newline='') as csv_file:
-                csv.writer(csv_file, delimiter=",", lineterminator='\r').writerow(
-                    [os.path.join(os.path.abspath('data_copy3'), a),
-                     os.path.join(os.path.relpath('data_copy3'), a),
-                     rating])
-                k += 1
-
+        rating_path = os.path.join('data', rating)
+        if os.path.isdir(rating_path):  # Check if it's a directory
+            list_name = os.listdir(rating_path)
+            for name in list_name:
+                a = str(random_integer_array[k]).zfill(5)
+                file_path_source = os.path.join(rating_path, name)
+                file_path_destination = os.path.join("data_copy3", a + '.txt')
+                shutil.copy(file_path_source, file_path_destination)
+                with open('3.csv', 'a', newline='') as csv_file:
+                    csv.writer(csv_file, delimiter=",", lineterminator='\r').writerow(
+                        [os.path.abspath(file_path_destination),
+                         os.path.relpath(file_path_destination),
+                         rating])
+                    k += 1
 
 def main() -> None:
     create('3.csv')
     copy()
-
 
 if __name__ == "__main__":
     main()
