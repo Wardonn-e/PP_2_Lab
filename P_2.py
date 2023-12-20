@@ -7,7 +7,13 @@ import pandas as pd
 
 def create(name_csv: str) -> None:
     """
-    Эта функция создает файл CSV и записывает названия столбцов.
+    Создает файл CSV и записывает названия столбцов.
+
+    Args:
+        name_csv (str): Имя файла CSV.
+
+    Returns:
+        None
     """
     data = {
         "absolute_path": [],
@@ -19,7 +25,13 @@ def create(name_csv: str) -> None:
 
 def make_dir(name: str) -> None:
     """
-    Создание папки с указанным именем
+    Создает папку с указанным именем.
+
+    Args:
+        name (str): Имя папки.
+
+    Returns:
+        None
     """
     path = Path(name)
     if not path.is_dir():
@@ -28,7 +40,10 @@ def make_dir(name: str) -> None:
 
 def copy_info() -> None:
     """
-    Копирование информации
+    Копирует информацию из одной директории в другую.
+
+    Returns:
+        None
     """
     make_dir('data_copy')
     source_dir = Path('data')
@@ -36,13 +51,19 @@ def copy_info() -> None:
         if rating_dir.is_dir():
             for file_path in rating_dir.iterdir():
                 if file_path.is_file():
-                    destination_path = Path("data_copy") / f"{rating_dir.name}_{file_path.name}"
+                    destination_path = os.path.join("data_copy", f"{rating_dir.name}_{file_path.name}")
                     shutil.copyfile(file_path, destination_path)
 
 
 def write(name_csv: str) -> None:
     """
-    Функция записывает полный путь, относительный путь и рейтинг отзыва
+    Записывает полный путь, относительный путь и рейтинг отзыва в файл CSV.
+
+    Args:
+        name_csv (str): Имя файла CSV.
+
+    Returns:
+        None
     """
     with open(name_csv, 'a', newline='') as csv_file:
         for file_path in Path('data_copy').iterdir():
@@ -55,12 +76,18 @@ def write(name_csv: str) -> None:
 
 
 def main() -> None:
+    """
+    Основная функция, копирующая информацию и создающая CSV файл.
+
+    Returns:
+        None
+    """
     try:
         copy_info()
         create('2.csv')
         write('2.csv')
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"Произошла ошибка: {e}")
 
 
 if __name__ == "__main__":

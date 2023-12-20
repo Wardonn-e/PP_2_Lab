@@ -7,14 +7,20 @@ from P_2 import make_dir
 
 def copy() -> None:
     """
-    Копирование информации
+    Копирует информацию.
+
+    Использует случайно сгенерированные целочисленные значения для создания новых файлов с разными именами,
+    копирует их в новую директорию 'data_copy3' и записывает пути к файлам в файл CSV '3.csv'.
+
+    Returns:
+        None
     """
     random_integer_array = numpy.random.randint(0, 10000, 500)
     make_dir('data_copy3')
     k = 0
     for rating in os.listdir('data'):
         rating_path = os.path.join('data', rating)
-        if os.path.isdir(rating_path):  # Check if it's a directory
+        if os.path.isdir(rating_path):  # Проверяет, является ли это директорией
             list_name = os.listdir(rating_path)
             for name in list_name:
                 a = str(random_integer_array[k]).zfill(5)
@@ -29,6 +35,12 @@ def copy() -> None:
                     k += 1
 
 def main() -> None:
+    """
+    Основная функция, создающая файл CSV '3.csv' и копирующая информацию.
+
+    Returns:
+        None
+    """
     create('3.csv')
     copy()
 
